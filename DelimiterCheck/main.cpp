@@ -6,7 +6,7 @@
 using namespace std;
 
 
-
+//goes through the document
 void checkChars(ifstream in)
 {
     int lineNumber = 1;
@@ -27,12 +27,15 @@ void checkChars(ifstream in)
                         literal = !literal;
                 if (!literal)
                 {
+                    //checking opening brace statements
                     if (line[i] == '{'||line[i] == '['||line[i] == '(')
                     {
-                        cout << "line[" << i << "]:" << line[i] << endl;
+                        //cout << "line[" << i << "]:" << line[i] << endl;
                         stack.push(line[i]);
                         cout << stack.to_string() << endl;
                     }
+
+                    //individual because eCH HAS A DIFFERENT attributr to check if it is closed
                     if (line[i] == '}')
                     {
                         if (stack.peek()=='{')
@@ -65,12 +68,16 @@ void checkChars(ifstream in)
                     }
                 }
             }
+            //this is where we see if the stack is full or empty and treat it accordingly
             catch (const char*)
             {
                 if (stack.isFull())
-                    stack = GenericStack<char>(stack.size * 2);
+                    stack.resize();
                 if (stack.isEmpty())
+                {
                     cout << "yeet. a reference to a vine about an object being empty" << endl;
+                    return;
+                }
             }
         }
         ++lineNumber;

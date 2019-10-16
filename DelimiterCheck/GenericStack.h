@@ -3,20 +3,25 @@ using namespace std;
 template <class Generic> class GenericStack
 {
 
-    private:
-        Generic* stack;
+
 
     public:
         int index;
         int size;
 
+        Generic* stack;
+
+        //simply returns the top element in the stack there is no change to the program
         char peek()
         {
-            return stack[index];
+            if (!isEmpty())
+                return stack[index];
+            else throw "StackEmpty";
         }
-
+        //removes and returns the top elementin the stack
         char pop()
         {
+            cout << "pop" << endl;
             if (index > 0)
             {
                 index--;
@@ -25,29 +30,31 @@ template <class Generic> class GenericStack
             else throw "StackEmpty";
         }
 
+        //this puts the index and newest point to the top of the stack
+        //this is acting funny
         void push(char c)
         {
 
             if (index < size)
             {
-                cout << "pushing " << c << endl;
                 index++;
                 stack[index] = c;
             }
             else throw "StackFull";
-            cout << to_string() << endl;
         }
 
+        //tells if the array in the stack is full
         bool isFull()
         {
             return size == index + 1;
         }
-
+        //tells if the num of ele in the array is 0 or whether it is empty
         bool isEmpty()
         {
             return index == 0;
         }
 
+        //constructors and destructor
         GenericStack()
         {
             //TODO: question to ask, can i put index = -1 in the header
@@ -68,7 +75,7 @@ template <class Generic> class GenericStack
             delete stack;
         }
 
-        //to_string() mainly for debugging
+        //to_string() mainly for debugging but prints the stack
         string to_string()
         {
             string text = "";
@@ -84,5 +91,16 @@ template <class Generic> class GenericStack
                 }
             }
             return text;
+        }
+        //dubles the size of the stack
+        void resize()
+        {
+            Generic* copy = new Generic[2*size];
+            for (int i = 0; i < index; ++i)
+            {
+                copy[i] = stack[i];
+            }
+            stack = copy;
+            delete copy;
         }
 };
