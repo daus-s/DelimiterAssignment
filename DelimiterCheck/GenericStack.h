@@ -27,12 +27,15 @@ template <class Generic> class GenericStack
 
         void push(char c)
         {
+
             if (index < size)
             {
+                cout << "pushing " << c << endl;
                 index++;
                 stack[index] = c;
             }
             else throw "StackFull";
+            cout << to_string() << endl;
         }
 
         bool isFull()
