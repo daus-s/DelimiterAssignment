@@ -5,19 +5,23 @@
 
 using namespace std;
 
-bool literal = false;
+
 
 void checkChars(ifstream in)
 {
     int lineNumber = 1;
+    bool literal = false;
     string line;
     getline(in, line);
-    GenericStack<char> stack = new GenericStack<char>();
+    GenericStack<char> stack = GenericStack<char>();
     while (!in.eof())
     {
         for (int i = 0; i < line.size(); ++i)
         {
-            if (line[i]='"')
+            cout << stack.to_string() << endl;
+            cout << line << endl;
+
+            if (line[i]=='"')
                 if (i>0 && line[i-1]!='\\')
                     literal = !literal;
             if (!literal)
@@ -30,7 +34,7 @@ void checkChars(ifstream in)
                         stack.pop();
                     else
                     {
-                        cout << "error on line " << line << " } expected" << endl;
+                        cout << "error on line " << line << ", } expected" << endl;
                         return;
                     }
                 }
@@ -40,7 +44,7 @@ void checkChars(ifstream in)
                         stack.pop();
                     else
                     {
-                        cout << "error on line " << line << " ) expected" << endl;
+                        cout << "error on line " << line << ", ) expected" << endl;
                         return;
                     }
                 }
@@ -56,7 +60,8 @@ void checkChars(ifstream in)
                 }
             }
         }
-    ++lineNumber;
+        ++lineNumber;
+        getline(in, line);
     }
     if (stack.size!=0)
     {
@@ -73,5 +78,5 @@ int main()
     cout << "Enter file name:" << endl;
     string file;
     cin >> file;
-    checkChars(new ifstream(file));
+    checkChars(ifstream(file));
 }

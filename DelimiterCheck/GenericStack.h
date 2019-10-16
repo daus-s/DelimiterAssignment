@@ -3,44 +3,49 @@ using namespace std;
 template <class Generic> class GenericStack
 {
 
-        private Generic* stack;
+    private:
+        Generic* stack;
 
-        public int index;
-        public int size;
+    public:
+        int index;
+        int size;
 
-        public char peek()
+        char peek()
         {
             return stack[index];
         }
-        public char pop()
+
+        char pop()
         {
             if (index > 0)
             {
                 index--;
                 return stack[index];
             }
-            else throw StackEmpty;
+            else throw "StackEmpty";
         }
-        public void push(char c)
+
+        void push(char c)
         {
             if (index < size)
             {
                 index++;
                 stack[index] = c;
             }
-            else throw StackFull;
+            else throw "StackFull";
         }
-        public bool isFull()
+
+        bool isFull()
         {
             return size == index + 1;
         }
-        public bool isEmpty()
+
+        bool isEmpty()
         {
             return index == 0;
         }
 
-
-        public GenericStack()
+        GenericStack()
         {
             //TODO: question to ask, can i put index = -1 in the header
             index = -1;
@@ -48,14 +53,33 @@ template <class Generic> class GenericStack
             stack = new char[size];
         }
 
-        public GenericStack(int s)
+        GenericStack(int s)
         {
             index = -1;
             size = s;
             stack = new char[size];
         }
-        public ~GenericStack()
+
+        ~GenericStack()
         {
             delete stack;
+        }
+
+        //to_string() mainly for debugging
+        string to_string()
+        {
+            string text = "";
+            for (int i = 0; i < index; ++i)
+            {
+                if (i == 0)
+                {
+                    text += stack[i];
+                }
+                else
+                {
+                    text += ", " + stack[i];
+                }
+            }
+            return text;
         }
 };
